@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 import { BookCheck, Trash2 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 const sideMenu = [
   {
@@ -25,7 +26,7 @@ const linkVariants = cva('flex items-center gap-2 rounded px-5 py-3', {
 });
 
 type AppLayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export function AppLayout({ children }: AppLayoutProps) {
