@@ -1,0 +1,40 @@
+import { Plus } from 'lucide-react';
+import { useRef, type FormEvent } from 'react';
+
+type CreateTaskFormProps = {
+  onSubmit: (title: string) => void;
+};
+
+export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const inputValue = inputRef.current!.value.trim();
+    if (!inputValue) {
+      return;
+    }
+
+    onSubmit(inputValue);
+
+    inputRef.current!.value = '';
+  };
+
+  return (
+    <form className="flex gap-0.5" onSubmit={handleSubmit}>
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder="新しいタスクを入力してください"
+        className="grow rounded-s border border-gray-300 p-2 bg-white"
+      />
+      <button
+        type="submit"
+        className="rounded-e bg-blue-600 text-white p-2 transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
+        aria-label="タスクを作成する"
+      >
+        <Plus />
+      </button>
+    </form>
+  );
+}
