@@ -1,39 +1,9 @@
-import { useEffect, useState } from 'react';
 import { TaskItem } from './TaskItem';
-import type { Task } from '../types/Task';
 import { CreateTaskForm } from './CreateTaskForm';
+import { useTasks } from '../hooks/useTasks';
 
 export function TaskList() {
-  const [taskList, setTaskList] = useState<Task[]>(() => {
-    const taskListStorage = localStorage.getItem('taskList');
-
-    return JSON.parse(taskListStorage ?? '[]');
-  });
-
-  useEffect(() => {
-    localStorage.setItem('taskList', JSON.stringify(taskList));
-  }, [taskList]);
-
-  const activeTaskList = taskList.filter(({ status }) => status !== 'trashed');
-
-  const createTask = (title: string) => {
-    setTaskList(prevTaskList => {
-      const newTask: Task = {
-        id: crypto.randomUUID(),
-        title,
-        status: 'notStarted',
-      };
-      return [...prevTaskList, newTask];
-    });
-  };
-
-  const updateTask = (id: string, update: Partial<Task>) => {
-    setTaskList(prevTaskList =>
-      prevTaskList.map(task =>
-        task.id === id ? { ...task, ...update } : task,
-      ),
-    );
-  };
+  const { activeTaskList, createTask, updateTask } = useTasks();
 
   return (
     <div className="relative">
