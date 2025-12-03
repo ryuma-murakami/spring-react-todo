@@ -17,17 +17,29 @@ export function useTasks() {
     });
   };
 
-  const updateTask = (id: string, update: Partial<Task>) => {
+  const updateTask = (id: string, update: Partial<Task>) =>
     setTaskList(prevTaskList =>
       prevTaskList.map(task =>
         task.id === id ? { ...task, ...update } : task,
       ),
     );
-  };
+
+  const trashedTaskList = taskList.filter(({ status }) => status === 'trashed');
+
+  const deleteTask = (id: string) =>
+    setTaskList(prevTaskList => prevTaskList.filter(task => task.id !== id));
+
+  const deleteAllTrashedTasks = () =>
+    setTaskList(prevTaskList =>
+      prevTaskList.filter(({ status }) => status !== 'trashed'),
+    );
 
   return {
     activeTaskList,
     createTask,
     updateTask,
+    trashedTaskList,
+    deleteTask,
+    deleteAllTrashedTasks,
   };
 }
