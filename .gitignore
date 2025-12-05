@@ -7,27 +7,50 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Frontend (Node / Vite / TypeScript)
 node_modules
 dist
 dist-ssr
 *.local
+.vite/
+*.tsbuildinfo
+.eslintcache
 
-# Editor directories and files
+# Env files (frontend and backend)
+.env
+.env.local
+.env.*.local
+backend/env.sh
+
+# Backend (Java / Spring Boot / Gradle)
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+target/
+*.jar
+*.war
+
+# IDE / Editor
+.DS_Store
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
+*.iml
+.classpath
+.project
+.settings/
+*.launch
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-.vite/
-.env
-.env.local
-.env.*.local
-*.tsbuildinfo
-.eslintcache
+# Testing
 jest-cache/
 coverage/
+*.test-reports/
+
+# Temporary files
+tmp/
+out/
