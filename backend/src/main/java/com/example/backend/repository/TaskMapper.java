@@ -11,6 +11,7 @@ import com.example.backend.entity.TaskStatus;
 
 @Mapper
 public interface TaskMapper {
+
 	List<Task> selectActiveTasks(@Param("status") TaskStatus status);
 
 	List<Task> selectTrashedTasks(@Param("status") TaskStatus status);

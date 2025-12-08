@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.example.backend.entity.Task;
 
 public interface TaskService {
+
 	List<Task> findActiveTasks();
 
 	List<Task> findTrashedTasks();
