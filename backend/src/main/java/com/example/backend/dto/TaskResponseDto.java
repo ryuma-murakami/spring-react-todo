@@ -1,7 +1,6 @@
 package com.example.backend.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import com.example.backend.entity.TaskStatus;
 
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TaskResponseDto {
 
-	private UUID id;
+	private String id;
 
 	private String title;
 

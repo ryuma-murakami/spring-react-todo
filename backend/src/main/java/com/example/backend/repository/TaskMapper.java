@@ -1,7 +1,6 @@
 package com.example.backend.repository;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,5 +21,5 @@ public interface TaskMapper {
 
 	void deleteAllTrashedTasks(@Param("status") TaskStatus status);
 
-	void deleteTask(@Param("id") UUID id);
+	void deleteTask(@Param("id") String id);
 }
