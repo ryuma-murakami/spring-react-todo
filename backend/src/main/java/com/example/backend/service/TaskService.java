@@ -1,7 +1,6 @@
 package com.example.backend.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.example.backend.entity.Task;
 
@@ -17,5 +16,5 @@ public interface TaskService {
 
 	void deleteAllTrashedTasks();
 
-	void deleteTask(UUID id);
+	void deleteTask(String id);
 }

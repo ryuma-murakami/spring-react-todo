@@ -20,7 +20,6 @@ dist-ssr
 .env
 .env.local
 .env.*.local
-backend/env.sh
 
 # Backend (Java / Spring Boot / Gradle)
 .gradle/

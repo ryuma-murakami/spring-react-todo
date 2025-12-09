@@ -1,7 +1,6 @@
 package com.example.backend.service.impl;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void deleteTask(UUID id) {
+	public void deleteTask(String id) {
 		taskMapper.deleteTask(id);
 	}
 }
