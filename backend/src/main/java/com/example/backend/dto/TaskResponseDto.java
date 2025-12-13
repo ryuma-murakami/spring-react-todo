@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TaskResponseDto {
 
-	private String id;
+	private Integer id;
 
 	private String title;
 

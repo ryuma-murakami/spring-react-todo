@@ -66,7 +66,7 @@ public class TaskController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> updateTask(@PathVariable String id, @RequestBody TaskRequestDto request) {
+	public ResponseEntity<Void> updateTask(@PathVariable Integer id, @RequestBody TaskRequestDto request) {
 		Task task = TaskDtoMapper.toEntity(request);
 		task.setId(id);
 		taskService.updateTask(task);
@@ -82,7 +82,7 @@ public class TaskController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteTask(@PathVariable String id) {
+	public ResponseEntity<Void> deleteTask(@PathVariable Integer id) {
 		taskService.deleteTask(id);
 
 		return ResponseEntity.noContent().build();

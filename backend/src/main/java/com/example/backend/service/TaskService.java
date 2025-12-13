@@ -16,5 +16,5 @@ public interface TaskService {
 
 	void deleteAllTrashedTasks();
 
-	void deleteTask(String id);
+	void deleteTask(Integer id);
 }
