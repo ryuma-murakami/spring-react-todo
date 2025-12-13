@@ -45,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void deleteTask(String id) {
+	public void deleteTask(Integer id) {
 		taskMapper.deleteTask(id);
 	}
 }

@@ -1,5 +1,5 @@
-INSERT INTO tasks (id, title, status)
+INSERT INTO tasks (title, status)
 VALUES
-('11111111-1111-1111-1111-111111111111', 'Reactを勉強する', 'NOT_STARTED'),
-('22222222-2222-2222-2222-222222222222', '夕食を作る', 'COMPLETED'),
-('33333333-3333-3333-3333-333333333333', '部屋を掃除する', 'TRASHED');
+('Reactを勉強する', 'NOT_STARTED'),
+('夕食を作る', 'COMPLETED'),
+('部屋を掃除する', 'TRASHED');

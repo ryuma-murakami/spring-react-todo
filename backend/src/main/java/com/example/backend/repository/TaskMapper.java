@@ -21,5 +21,5 @@ public interface TaskMapper {
 
 	void deleteAllTrashedTasks(@Param("status") TaskStatus status);
 
-	void deleteTask(@Param("id") String id);
+	void deleteTask(@Param("id") Integer id);
 }

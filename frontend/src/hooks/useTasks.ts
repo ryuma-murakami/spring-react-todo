@@ -1,45 +1,65 @@
-import { useLocalStorageStatus } from './useLocalStorageState';
+import useSWR from 'swr';
 import type { Task } from '../types/Task';
+import {
+  getActiveTasks,
+  getTrashedTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+  deleteAllTrashedTasks,
+} from '../api/tasks';
 
 export function useTasks() {
-  const [taskList, setTaskList] = useLocalStorageStatus<Task[]>('taskList', []);
+  const {
+    data: activeTaskList,
+    error: activeError,
+    isValidating: validatingActive,
+    mutate: mutateActive,
+  } = useSWR<Task[]>('activeTasks', getActiveTasks);
 
-  const activeTaskList = taskList.filter(({ status }) => status !== 'trashed');
+  const {
+    data: trashedTaskList,
+    error: trashedError,
+    isValidating: validatingTrashed,
+    mutate: mutateTrashed,
+  } = useSWR<Task[]>('trashedTasks', getTrashedTasks);
 
-  const createTask = (title: string) => {
-    setTaskList(prevTaskList => {
-      const newTask: Task = {
-        id: crypto.randomUUID(),
-        title,
-        status: 'notStarted',
-      };
-      return [...prevTaskList, newTask];
-    });
+  const loading =
+    !activeTaskList ||
+    !trashedTaskList ||
+    validatingActive ||
+    validatingTrashed;
+
+  const error = activeError || trashedError;
+
+  const addTask = async (title: string) => {
+    await createTask(title);
+    await mutateActive();
   };
 
-  const updateTask = (id: string, update: Partial<Task>) =>
-    setTaskList(prevTaskList =>
-      prevTaskList.map(task =>
-        task.id === id ? { ...task, ...update } : task,
-      ),
-    );
+  const editTask = async (id: string, update: Partial<Task>) => {
+    await updateTask(id, update);
+    await Promise.all([mutateActive(), mutateTrashed()]);
+  };
 
-  const trashedTaskList = taskList.filter(({ status }) => status === 'trashed');
+  const removeTask = async (id: string) => {
+    await deleteTask(id);
+    await Promise.all([mutateActive(), mutateTrashed()]);
+  };
 
-  const deleteTask = (id: string) =>
-    setTaskList(prevTaskList => prevTaskList.filter(task => task.id !== id));
-
-  const deleteAllTrashedTasks = () =>
-    setTaskList(prevTaskList =>
-      prevTaskList.filter(({ status }) => status !== 'trashed'),
-    );
+  const removeAllTrashedTasks = async () => {
+    await deleteAllTrashedTasks();
+    await mutateTrashed();
+  };
 
   return {
     activeTaskList,
-    createTask,
-    updateTask,
     trashedTaskList,
-    deleteTask,
-    deleteAllTrashedTasks,
+    loading,
+    error,
+    addTask,
+    editTask,
+    removeTask,
+    removeAllTrashedTasks,
   };
 }
