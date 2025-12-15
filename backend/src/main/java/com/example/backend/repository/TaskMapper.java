@@ -11,15 +11,15 @@ import com.example.backend.entity.TaskStatus;
 @Mapper
 public interface TaskMapper {
 
-	List<Task> selectActiveTasks(@Param("status") TaskStatus status);
+	List<Task> selectActive(@Param("status") TaskStatus status);
 
-	List<Task> selectTrashedTasks(@Param("status") TaskStatus status);
+	List<Task> selectTrashed(@Param("status") TaskStatus status);
 
-	void insertTask(Task task);
+	void insert(Task task);
 
-	void updateTask(Task task);
+	void update(Task task);
 
-	void deleteAllTrashedTasks(@Param("status") TaskStatus status);
+	void deleteAllTrashed(@Param("status") TaskStatus status);
 
-	void deleteTask(@Param("id") Integer id);
+	void deleteById(@Param("id") Integer id);
 }

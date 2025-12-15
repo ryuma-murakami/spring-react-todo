@@ -20,32 +20,32 @@ public class TaskServiceImpl implements TaskService {
 	private final TaskMapper taskMapper;
 
 	@Override
-	public List<Task> findActiveTasks() {
-		return taskMapper.selectActiveTasks(TaskStatus.TRASHED);
+	public List<Task> findActive() {
+		return taskMapper.selectActive(TaskStatus.TRASHED);
 	}
 
 	@Override
-	public List<Task> findTrashedTasks() {
-		return taskMapper.selectTrashedTasks(TaskStatus.TRASHED);
+	public List<Task> findTrashed() {
+		return taskMapper.selectTrashed(TaskStatus.TRASHED);
 	}
 
 	@Override
-	public void createTask(Task task) {
-		taskMapper.insertTask(task);
+	public void create(Task task) {
+		taskMapper.insert(task);
 	}
 
 	@Override
-	public void updateTask(Task task) {
-		taskMapper.updateTask(task);
+	public void update(Task task) {
+		taskMapper.update(task);
 	}
 
 	@Override
-	public void deleteAllTrashedTasks() {
-		taskMapper.deleteAllTrashedTasks(TaskStatus.TRASHED);
+	public void deleteAllTrashed() {
+		taskMapper.deleteAllTrashed(TaskStatus.TRASHED);
 	}
 
 	@Override
-	public void deleteTask(Integer id) {
-		taskMapper.deleteTask(id);
+	public void deleteById(Integer id) {
+		taskMapper.deleteById(id);
 	}
 }

@@ -6,15 +6,15 @@ import com.example.backend.entity.Task;
 
 public interface TaskService {
 
-	List<Task> findActiveTasks();
+	List<Task> findActive();
 
-	List<Task> findTrashedTasks();
+	List<Task> findTrashed();
 
-	void createTask(Task task);
+	void create(Task task);
 
-	void updateTask(Task task);
+	void update(Task task);
 
-	void deleteAllTrashedTasks();
+	void deleteAllTrashed();
 
-	void deleteTask(Integer id);
+	void deleteById(Integer id);
 }

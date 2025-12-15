@@ -9,25 +9,27 @@
 		<result property="createdAt" column="created_at" />
 		<result property="updatedAt" column="updated_at" />
 	</resultMap>
-	<select id="selectActiveTasks" resultMap="TaskResultMap">
+	<select id="selectActive" resultMap="TaskResultMap">
 		SELECT * FROM
 		tasks
-		WHERE status != #{status}
+		WHERE
+		status != #{status}
 		ORDER BY created_at DESC
 	</select>
-	<select id="selectTrashedTasks" resultMap="TaskResultMap">
+	<select id="selectTrashed" resultMap="TaskResultMap">
 		SELECT * FROM
 		tasks
-		WHERE status = #{status}
+		WHERE
+		status = #{status}
 		ORDER BY created_at DESC
 	</select>
-	<insert id="insertTask">
+	<insert id="insert">
 		INSERT INTO tasks
 		(title)
 		VALUES
 		(#{title})
 	</insert>
-	<update id="updateTask">
+	<update id="update">
 		UPDATE tasks
 		<set>
 			<if test="title != null">
@@ -40,10 +42,10 @@
 		</set>
 		WHERE id = #{id}
 	</update>
-	<delete id="deleteAllTrashedTasks">
+	<delete id="deleteAllTrashed">
 		DELETE FROM tasks WHERE status = #{status}
 	</delete>
-	<delete id="deleteTask">
+	<delete id="deleteById">
 		DELETE FROM tasks WHERE id = #{id}
 	</delete>
 </mapper>
