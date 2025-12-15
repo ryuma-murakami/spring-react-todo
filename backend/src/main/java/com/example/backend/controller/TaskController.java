@@ -31,7 +31,7 @@ public class TaskController {
 
 	@GetMapping("/active")
 	public ResponseEntity<List<TaskResponseDto>> getActiveTasks() {
-		List<Task> tasks = taskService.findActiveTasks();
+		List<Task> tasks = taskService.findActive();
 		List<TaskResponseDto> dtos = tasks.stream()
 				.map(TaskDtoMapper::toResponseDto)
 				.toList();
@@ -41,7 +41,7 @@ public class TaskController {
 
 	@GetMapping("/trashed")
 	public ResponseEntity<List<TaskResponseDto>> getTrashedTasks() {
-		List<Task> tasks = taskService.findTrashedTasks();
+		List<Task> tasks = taskService.findTrashed();
 		List<TaskResponseDto> dtos = tasks.stream()
 				.map(TaskDtoMapper::toResponseDto)
 				.toList();
@@ -52,7 +52,7 @@ public class TaskController {
 	@PostMapping
 	public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto request) {
 		Task task = TaskDtoMapper.toEntity(request);
-		taskService.createTask(task);
+		taskService.create(task);
 
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
@@ -69,21 +69,21 @@ public class TaskController {
 	public ResponseEntity<Void> updateTask(@PathVariable Integer id, @RequestBody TaskRequestDto request) {
 		Task task = TaskDtoMapper.toEntity(request);
 		task.setId(id);
-		taskService.updateTask(task);
+		taskService.update(task);
 
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/trashed")
 	public ResponseEntity<Void> deleteAllTrashedTasks() {
-		taskService.deleteAllTrashedTasks();
+		taskService.deleteAllTrashed();
 
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteTask(@PathVariable Integer id) {
-		taskService.deleteTask(id);
+		taskService.deleteById(id);
 
 		return ResponseEntity.noContent().build();
 	}
