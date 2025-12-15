@@ -5,8 +5,8 @@ import {
   getTrashedTasks,
   createTask,
   updateTask,
-  deleteTask,
   deleteAllTrashedTasks,
+  deleteTask,
 } from '../api/tasks';
 
 export function useTasks() {
@@ -42,14 +42,14 @@ export function useTasks() {
     await Promise.all([mutateActive(), mutateTrashed()]);
   };
 
-  const removeTask = async (id: string) => {
-    await deleteTask(id);
-    await Promise.all([mutateActive(), mutateTrashed()]);
-  };
-
   const removeAllTrashedTasks = async () => {
     await deleteAllTrashedTasks();
     await mutateTrashed();
+  };
+
+  const removeTask = async (id: string) => {
+    await deleteTask(id);
+    await Promise.all([mutateActive(), mutateTrashed()]);
   };
 
   return {
@@ -59,7 +59,7 @@ export function useTasks() {
     error,
     addTask,
     editTask,
-    removeTask,
     removeAllTrashedTasks,
+    removeTask,
   };
 }

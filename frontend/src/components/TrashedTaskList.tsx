@@ -6,8 +6,8 @@ export function TrashedTaskList() {
   const {
     trashedTaskList,
     editTask,
-    removeTask,
     removeAllTrashedTasks,
+    removeTask,
     loading,
     error,
   } = useTasks();
