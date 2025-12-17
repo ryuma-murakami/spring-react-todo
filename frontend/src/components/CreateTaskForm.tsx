@@ -1,5 +1,11 @@
 import { Plus } from 'lucide-react';
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from 'react';
 
 type CreateTaskFormProps = {
   onSubmit: (title: string) => void;
@@ -7,6 +13,13 @@ type CreateTaskFormProps = {
 
 export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
   const [form, setForm] = useState({ title: '' });
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (form.title === '') {
+      inputRef.current?.focus();
+    }
+  }, [form.title]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,19 +28,19 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const trimmed = form.title.trim();
-    if (!trimmed) {
+    const trimmedTitle = form.title.trim();
+    if (!trimmedTitle) {
       return;
     }
 
-    onSubmit(trimmed);
-
+    onSubmit(trimmedTitle);
     setForm({ ...form, title: '' });
   };
 
   return (
     <form className="flex gap-0.5" onSubmit={handleSubmit}>
       <input
+        ref={inputRef}
         type="text"
         name="title"
         value={form.title}
