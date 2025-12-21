@@ -1,5 +1,7 @@
+export type TaskStatus = 'notStarted' | 'completed' | 'trashed';
+
 export type Task = {
   id: string;
   title: string;
-  status: 'NOT_STARTED' | 'COMPLETED' | 'TRASHED';
+  status: TaskStatus;
 };
