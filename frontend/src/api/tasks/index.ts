@@ -1,4 +1,6 @@
-import type { Task } from '../types/Task';
+import type { Task } from '../../types/Task';
+import { toTask, toTaskRequest } from './mapper';
+import type { TaskResponse } from './types';
 
 const BASE_URL = '/api/tasks';
 
@@ -30,18 +32,24 @@ const apiFetchNoData = async (
   return;
 };
 
-export const getActiveTasks = (): Promise<Task[]> =>
-  apiFetchWithData<Task[]>(`${BASE_URL}/active`);
+export const getActiveTasks = async (): Promise<Task[]> => {
+  const res = await apiFetchWithData<TaskResponse[]>(`${BASE_URL}/active`);
+  return res.map(toTask);
+};
 
-export const getTrashedTasks = (): Promise<Task[]> =>
-  apiFetchWithData<Task[]>(`${BASE_URL}/trashed`);
+export const getTrashedTasks = async (): Promise<Task[]> => {
+  const res = await apiFetchWithData<TaskResponse[]>(`${BASE_URL}/trashed`);
+  return res.map(toTask);
+};
 
-export const createTask = async (title: string): Promise<Task> =>
-  apiFetchWithData<Task>(BASE_URL, {
+export const createTask = async (title: string): Promise<Task> => {
+  const res = await apiFetchWithData<TaskResponse>(BASE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title }),
   });
+  return toTask(res);
+};
 
 export const updateTask = async (
   id: string,
@@ -50,7 +58,7 @@ export const updateTask = async (
   await apiFetchNoData(`${BASE_URL}/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(update),
+    body: JSON.stringify(toTaskRequest(update)),
   });
 
 export const deleteAllTrashedTasks = async (): Promise<void> =>

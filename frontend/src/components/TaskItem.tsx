@@ -22,18 +22,18 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
       <input
         type="checkbox"
         className="size-5 cursor-pointer"
-        checked={task.status === 'COMPLETED'}
+        checked={task.status === 'completed'}
         onChange={event =>
           onChange(task.id, {
-            status: event.target.checked ? 'COMPLETED' : 'NOT_STARTED',
+            status: event.target.checked ? 'completed' : 'notStarted',
           })
         }
       />
       <input
         type="text"
-        className={inputVariants({ completed: task.status === 'COMPLETED' })}
+        className={inputVariants({ completed: task.status === 'completed' })}
         defaultValue={task.title}
-        disabled={task.status === 'COMPLETED'}
+        disabled={task.status === 'completed'}
         onKeyDown={event => {
           if (event.nativeEvent.isComposing || event.key !== 'Enter') {
             return;
@@ -51,7 +51,7 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
         className="rounded bg-gray-200 p-2 transition-colors hover:bg-gray-300"
         onClick={() =>
           onChange(task.id, {
-            status: 'TRASHED',
+            status: 'trashed',
           })
         }
         aria-label={`タスク「${task.title}」をゴミ箱へ移動する`}

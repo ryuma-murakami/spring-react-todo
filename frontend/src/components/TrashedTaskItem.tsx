@@ -21,7 +21,7 @@ export function TrashedTaskItem({
           className="rounded bg-gray-200 p-2 transition-colors hover:bg-gray-300"
           onClick={() =>
             onRestore(task.id, {
-              status: 'NOT_STARTED',
+              status: 'notStarted',
             })
           }
           aria-label={`タスク「${task.title}」をゴミ箱から復元する`}
