@@ -19,54 +19,80 @@ type TaskItemProps = {
 
 export function TaskItem({ task, onChange }: TaskItemProps) {
   const [title, setTitle] = useState(task.title);
+  const [error, setError] = useState('');
+
+  const MAX_LENGTH = 30;
 
   const handleStatusToggle = (event: ChangeEvent<HTMLInputElement>) =>
     onChange(task.id, {
       status: event.target.checked ? 'completed' : 'notStarted',
     });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-    setTitle(event.target.value);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setTitle(value);
 
-  const handleBlur = () => onChange(task.id, { title: title.trim() });
+    if (value.length > MAX_LENGTH) {
+      setError(`タスクは${MAX_LENGTH}字以内にしてください`);
+    } else {
+      setError('');
+    }
+  };
+
+  const handleBlur = () => {
+    if (title.trim().length === 0) {
+      setError(`タスクは必須入力です`);
+      return;
+    }
+    if (title.length > MAX_LENGTH) {
+      setError(`タスクは${MAX_LENGTH}字以内にしてください`);
+      return;
+    }
+
+    onChange(task.id, { title: title.trim() });
+  };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.nativeEvent.isComposing || event.key !== 'Enter') {
       return;
     }
+
     event.currentTarget.blur();
   };
 
   return (
-    <div className="flex items-center gap-3 rounded bg-white px-4 py-2">
-      <input
-        type="checkbox"
-        checked={task.status === 'completed'}
-        onChange={handleStatusToggle}
-        className="size-5 cursor-pointer"
-      />
-      <input
-        type="text"
-        name="title"
-        value={title}
-        disabled={task.status === 'completed'}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        className={inputVariants({ completed: task.status === 'completed' })}
-      />
-      <button
-        type="button"
-        className="rounded bg-gray-200 p-2 transition-colors hover:bg-gray-300"
-        onClick={() =>
-          onChange(task.id, {
-            status: 'trashed',
-          })
-        }
-        aria-label={`タスク「${task.title}」をゴミ箱へ移動する`}
-      >
-        <Trash2 className="size-5 text-gray-500" />
-      </button>
+    <div className="flex flex-col gap-1">
+      {error && <span className="text-red-600 text-sm">{error}</span>}
+      <div className="flex items-center gap-3 rounded bg-white px-4 py-2">
+        <input
+          type="checkbox"
+          checked={task.status === 'completed'}
+          onChange={handleStatusToggle}
+          className="size-5 cursor-pointer"
+        />
+        <input
+          type="text"
+          name="title"
+          value={title}
+          disabled={task.status === 'completed'}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          className={inputVariants({ completed: task.status === 'completed' })}
+        />
+        <button
+          type="button"
+          className="rounded bg-gray-200 p-2 transition-colors hover:bg-gray-300"
+          onClick={() =>
+            onChange(task.id, {
+              status: 'trashed',
+            })
+          }
+          aria-label={`タスク「${task.title}」をゴミ箱へ移動する`}
+        >
+          <Trash2 className="size-5 text-gray-500" />
+        </button>
+      </div>
     </div>
   );
 }
