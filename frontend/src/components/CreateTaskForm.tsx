@@ -12,21 +12,21 @@ type CreateTaskFormProps = {
 };
 
 export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
-  const [form, setForm] = useState({ title: '' });
+  const [title, setTitle] = useState('');
   const [error, setError] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const MAX_LENGTH = 30;
 
   useEffect(() => {
-    if (form.title === '') {
+    if (title === '') {
       inputRef.current?.focus();
     }
-  }, [form.title]);
+  }, [title]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setForm({ ...form, [event.target.name]: value });
+    setTitle(value);
 
     if (value.length > MAX_LENGTH) {
       setError(`タスクは${MAX_LENGTH}字以内にしてください`);
@@ -38,7 +38,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const trimmedTitle = form.title.trim();
+    const trimmedTitle = title.trim();
 
     if (trimmedTitle.length > MAX_LENGTH) {
       setError(`タスクは${MAX_LENGTH}字以内にしてください`);
@@ -46,7 +46,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
     }
 
     onSubmit(trimmedTitle);
-    setForm({ ...form, title: '' });
+    setTitle('');
     setError('');
   };
 
@@ -58,7 +58,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
           ref={inputRef}
           type="text"
           name="title"
-          value={form.title}
+          value={title}
           onChange={handleChange}
           placeholder="新しいタスクを入力してください"
           className="grow rounded-s border border-gray-300 p-2 bg-white"
@@ -66,7 +66,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
         <button
           type="submit"
           className="rounded-e bg-blue-600 text-white p-2 transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
-          disabled={!form.title.trim()}
+          disabled={!title.trim()}
           aria-label="タスクを作成する"
         >
           <Plus />
