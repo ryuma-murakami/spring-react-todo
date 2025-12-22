@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 import type { Task } from '../types/Task';
 import { Trash2 } from 'lucide-react';
+import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
 
 const inputVariants = cva('flex-1 border px-2 py-1 border-gray-300 bg-white', {
   variants: {
@@ -17,34 +18,42 @@ type TaskItemProps = {
 };
 
 export function TaskItem({ task, onChange }: TaskItemProps) {
+  const [title, setTitle] = useState(task.title);
+
+  const handleStatusToggle = (event: ChangeEvent<HTMLInputElement>) =>
+    onChange(task.id, {
+      status: event.target.checked ? 'completed' : 'notStarted',
+    });
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setTitle(event.target.value);
+
+  const handleBlur = () => onChange(task.id, { title: title.trim() });
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.nativeEvent.isComposing || event.key !== 'Enter') {
+      return;
+    }
+    event.currentTarget.blur();
+  };
+
   return (
     <div className="flex items-center gap-3 rounded bg-white px-4 py-2">
       <input
         type="checkbox"
-        className="size-5 cursor-pointer"
         checked={task.status === 'completed'}
-        onChange={event =>
-          onChange(task.id, {
-            status: event.target.checked ? 'completed' : 'notStarted',
-          })
-        }
+        onChange={handleStatusToggle}
+        className="size-5 cursor-pointer"
       />
       <input
         type="text"
-        className={inputVariants({ completed: task.status === 'completed' })}
-        defaultValue={task.title}
+        name="title"
+        value={title}
         disabled={task.status === 'completed'}
-        onKeyDown={event => {
-          if (event.nativeEvent.isComposing || event.key !== 'Enter') {
-            return;
-          }
-          event.currentTarget.blur();
-        }}
-        onBlur={event => {
-          onChange(task.id, {
-            title: event.target.value,
-          });
-        }}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        className={inputVariants({ completed: task.status === 'completed' })}
       />
       <button
         type="button"
