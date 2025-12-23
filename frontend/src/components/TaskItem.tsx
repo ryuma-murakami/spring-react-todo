@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import type { Task } from '../types/Task';
 import { Trash2 } from 'lucide-react';
-import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 
 const inputVariants = cva('flex-1 border px-2 py-1 border-gray-300 bg-white', {
   variants: {
@@ -20,6 +20,7 @@ type TaskItemProps = {
 export function TaskItem({ task, onChange }: TaskItemProps) {
   const [title, setTitle] = useState(task.title);
   const [error, setError] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const MAX_LENGTH = 30;
 
@@ -42,10 +43,12 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
   const handleBlur = () => {
     if (title.trim().length === 0) {
       setError(`タスクは必須入力です`);
+      setTimeout(() => inputRef.current?.focus(), 0);
       return;
     }
     if (title.length > MAX_LENGTH) {
       setError(`タスクは${MAX_LENGTH}字以内にしてください`);
+      setTimeout(() => inputRef.current?.focus(), 0);
       return;
     }
 
@@ -71,6 +74,7 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
           className="size-5 cursor-pointer"
         />
         <input
+          ref={inputRef}
           type="text"
           name="title"
           value={title}
