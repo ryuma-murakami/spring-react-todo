@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TaskItem } from './TaskItem';
 import { action } from 'storybook/actions';
 
-const meta: Meta<typeof TaskItem> = {
+const meta = {
   title: 'Components/TaskItem',
   component: TaskItem,
   args: {
     onChange: action('CHANGE'),
   },
   tags: ['autodocs'],
-};
+} satisfies Meta<typeof TaskItem>;
 
 export default meta;
 
