@@ -65,7 +65,7 @@ export function TaskItem({ task, onChange }: TaskItemProps) {
 
   return (
     <div className="flex flex-col gap-1">
-      {error && <span className="text-red-600 text-sm">{error}</span>}
+      {error && <span className="text-sm text-red-600">{error}</span>}
       <div className="flex items-center gap-3 rounded bg-white px-4 py-2">
         <input
           type="checkbox"
