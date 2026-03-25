@@ -52,7 +52,7 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
 
   return (
     <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
-      {error && <span className="text-red-600 text-sm">{error}</span>}
+      {error && <span className="text-sm text-red-600">{error}</span>}
       <div className="flex gap-0.5">
         <input
           ref={inputRef}
@@ -61,11 +61,11 @@ export function CreateTaskForm({ onSubmit }: CreateTaskFormProps) {
           value={title}
           onChange={handleChange}
           placeholder="新しいタスクを入力してください"
-          className="grow rounded-s border border-gray-300 p-2 bg-white"
+          className="grow rounded-s border border-gray-300 bg-white p-2"
         />
         <button
           type="submit"
-          className="rounded-e bg-blue-600 text-white p-2 transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
+          className="rounded-e bg-blue-600 p-2 text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
           disabled={!title.trim()}
           aria-label="タスクを作成する"
         >
